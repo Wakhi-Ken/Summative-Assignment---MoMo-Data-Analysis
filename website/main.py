@@ -19,6 +19,10 @@ def contact():
 def details():
     return render_template('details.html')
 
+@app.route('/analytics')
+def analytics():
+    return render_template('analytics.html')
+
 # Function to fetch all transactions
 def get_transactions():
     conn = sqlite3.connect('database/balances.db')
@@ -40,12 +44,22 @@ def get_messages(transaction_type):
 
 # Function to fetch the total amount for a specific transaction type
 def get_total_amount_by_type(transaction_type):
-    conn = sqlite3.connect('database/balances.db')
-    cursor = conn.cursor()
-    cursor.execute('SELECT SUM(amount) FROM Balances WHERE transaction_type = ?', (transaction_type,))
-    total_amount = cursor.fetchone()[0] 
-    conn.close()
-    return total_amount or 0
+    try:
+        with sqlite3.connect('database/balances.db') as conn:
+            cursor = conn.cursor()
+            cursor.execute('SELECT amount FROM Balances WHERE transaction_type = ?', (transaction_type,))
+            result = cursor.fetchone()
+            if result:
+                return result[0]
+            else:
+                return 0
+    except sqlite3.Error as e:
+        print(f"Database error: {e}")
+        return 0
+    except Exception as e:
+        print(f"Error: {e}")
+        return 0
+
 
 # Route to fetch all transactions as JSON
 @app.route('/api/transactions')
@@ -56,7 +70,7 @@ def transactions():
 # Route to fetch the total amount for a specific transaction type
 @app.route('/api/total_amount')
 def total_amount():
-    transaction_type = request.args.get('type')
+    transaction_type = request.args.get('transaction_type')
     if not transaction_type:
         return jsonify({'error': 'Transaction type is required'}), 400
     total_amount = get_total_amount_by_type(transaction_type)
