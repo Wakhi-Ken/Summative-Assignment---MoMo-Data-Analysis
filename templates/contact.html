@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MRN Contact Page</title>
-    <link rel="stylesheet" href="styles/contact.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/contact.css') }}">
 </head>
 <body>
     <header>
@@ -14,14 +14,14 @@
             <ul class="index-menu">
                 <li>
                     <div class="header-logo">
-                        <a href="about.html" class="nav-link">
-                            <img class="logo" src="images/mrn-small-logo.png" alt="MoMo Logo" width="100">
+                        <a href="{{ url_for('about') }}" class="nav-link">
+                            <img class="logo" src="{{ url_for('static', filename='images/mrn-small-logo.png') }}" alt="MoMo Logo" width="100">
                         </a>
                     </div>
                 </li>
-                <li class="index-item"><a href="index.html" class="nav-link-active">Home</a></li>
-                <li class="index-item"><a href="about.html" class="nav-link">About</a></li>
-                <li class="index-item"><a href="contact.html"class="nav-link">Contact</a></li>
+                <li class="index-item"><a href="{{ url_for('index') }}" class="nav-link-active">Home</a></li>
+                <li class="index-item"><a href="{{ url_for('about') }}" class="nav-link">About</a></li>
+                <li class="index-item"><a href="{{ url_for('contact') }}" class="nav-link">Contact</a></li>
             </ul>
             <div class="hamburger">
                 <span class="bar"></span>
@@ -40,39 +40,39 @@
         </div>
         <div class="contact-container">
             <div class="contact-content">
-                <a href="about.html" class="twitter-link">
-                    <img src="images/x-logo.png" alt="Twitter Logo" width="200">
+                <a href="https://www.x.com/god" class="twitter-link">
+                    <img src="{{ url_for('static', filename='images/x-logo.png') }}" alt="Twitter Logo" width="200">
                     <h2>Twitter</h2>
                     <p>@mrnrwanda</p>
                 </a>
             </div>
             <div class="contact-content">
-                <a href="about.html" class="insta-link">
-                    <img src="images/instagram-logo.png" alt="Instagram Logo" width="200">
+                <a href="https://www.instagram.com/god" class="insta-link">
+                    <img src="{{ url_for('static', filename='images/instagram-logo.png') }}" alt="Instagram Logo" width="200">
                     <h2>Instagram</h2>
                     <p>@mrnrwanda</p>
                 </a>
             </div>
             <div class="contact-content">
-                <a href="about.html" class="facebook-link">
-                    <img src="images/facebook-logo.png" alt="MRN Logo" width="200">
+                <a href="https://www.facebook.com/TheGoodLordAbove/" class="facebook-link">
+                    <img src="{{ url_for('static', filename='images/facebook-logo.png') }}" alt="MRN Logo" width="200">
                     <h2>Facebook</h2>
                     <p>MRN Rwanda</p>
                 </a>
             </div>
             <div class="contact-content">
-                <a href="about.html" class="email-link">
-                    <img src="images/mail-logo.png" alt="Email Logo" width="200">
+                <a href="https://mailto:support@mrnservices.co.rw" class="email-link">
+                    <img src="{{ url_for('static', filename='images/mail-logo.png') }}" alt="Email Logo" width="200">
                     <h2>Email Support</h2>
                     <p>support@mrnservices.co.rw</p>
                 </a>
             </div>
             <div class="contact-content">
-                <a href="about.html" class="call-link">
-                    <img src="images/call-logo.png" alt="Call Logo" width="200">
+                <div class="call-link">
+                    <img src="{{ url_for('static', filename='images/call-logo.png') }}" alt="Call Logo" width="200">
                     <h2>Call Toll-Free</h2>
                     <p>+250 794 038 011</p>
-                </a>
+                </div>
             </div>
         </div>
     </main>

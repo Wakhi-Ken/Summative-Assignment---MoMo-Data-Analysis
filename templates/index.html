@@ -4,24 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MoMo Account Homepage</title>
-    <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
 </head>
 <body>
     <header>
         <!-- HEADER -->
-        
         <nav class="nav-bar">
             <ul class="index-menu">
                 <li>
                     <div class="header-logo">
-                        <a href="about.html" class="nav-link">
-                            <img class="logo" src="images/mrn-small-logo.png" alt="MoMo Logo" width="100">
+                        <a href="{{ url_for('about') }}" class="nav-link">
+                            <img class="logo" src="{{ url_for('static', filename='images/mrn-small-logo.png') }}" alt="MoMo Logo" width="100">
                         </a>
                     </div>
                 </li>
-                <li class="index-item"><a href="index.html" class="nav-link-active">Home</a></li>
-                <li class="index-item"><a href="about.html" class="nav-link">About</a></li>
-                <li class="index-item"><a href="contact.html"class="nav-link">Contact</a></li>
+                <li class="index-item"><a href="{{ url_for('index') }}" class="nav-link-active">Home</a></li>
+                <li class="index-item"><a href="{{ url_for('about') }}" class="nav-link">About</a></li>
+                <li class="index-item"><a href="{{ url_for('contact') }}" class="nav-link">Contact</a></li>
             </ul>
             <div class="hamburger">
                 <span class="bar"></span>
@@ -42,7 +41,7 @@
             <div class="global-container">
                 <button class="widget-container">
                     <img class="widget-icon-container"
-                        src="images/money-icon.png"
+                        src="{{ url_for('static', filename='images/money-icon.png') }}"
                         alt="Home Icon"
                         width="200"
                         height="200"
@@ -53,12 +52,12 @@
                         </h3>
                     </div>
                     <div class="widget-list-container">
-                        <a href="details.html" class="widget-list-item">All Transactions</a>
+                        <a href="{{ url_for('details') }}" class="widget-list-item">All Transactions</a>
                     </div>
                 </button>
             <button type="button" class="widget-container">
                 <img class="image-container"
-                    src="images/invoice-icon.png"
+                    src="{{ url_for('static', filename='images/invoice-icon.png') }}"
                     alt="Home Icon"
                     width="200"
                     height="200"
@@ -69,14 +68,14 @@
                     </h3>
                 </div>
                 <div class="widget-list-container">
-                    <a href="details.html" class="widget-list-item">Airtime</a>
-                    <a href="details.html" class="widget-list-item">Electricity</a>
-                    <a href="details.html" class="widget-list-item">Internet + Voice Bundles</a>
+                    <a href="{{ url_for('details') }}" id="Airtime_Bill_Payments" class="widget-list-item">Airtime</a>
+                    <a href="{{ url_for('details') }}" id="Cash_Power_Bill_Payments" class="widget-list-item">Electricity</a>
+                    <a href="{{ url_for('details') }}" id="Internet_and_Voice_Bundle_Purchases" class="widget-list-item">Internet + Voice Bundles</a>
                 </div>
             </button>
             <button class="widget-container">
                 <img class="widget-icon-container"
-                    src="images/bank-icon.png"
+                    src="{{ url_for('static', filename='images/bank-icon.png') }}"
                     alt="Home Icon"
                     width="200"
                     height="200"
@@ -87,13 +86,14 @@
                     </h3>
                 </div>
                 <div class="widget-list-container">
-                    <a href="details.html" class="widget-list-item">Deposits</a>
-                    <a href="details.html" class="widget-list-item">Transfers</a>
+                    <a href="{{ url_for('details') }}" id="Incoming_Money" class="widget-list-item">Incoming Money</a>
+                    <a href="{{ url_for('details') }}" id="Bank_Deposits" class="widget-list-item">Bank Deposits</a>
+                    <a href="{{ url_for('details') }}" id="Bank_Transfers" class="widget-list-item">Bank Transfers</a>
                 </div>
             </button>
             <button class="widget-container">
                 <img class="widget-icon-container"
-                    src="images/transfer-icon.png"
+                    src="{{ url_for('static', filename='images/transfer-icon.png') }}"
                     alt="Home Icon"
                     width="200"
                     height="200"
@@ -104,14 +104,14 @@
                     </h3>
                 </div>
                 <div class="widget-list-container">
-                    <a href="details.html" class="widget-list-item">Mobile No. Transfers</a>
-                    <a href="details.html" class="widget-list-item">Code Holder Transfers</a>
-                    <a href="details.html" class="widget-list-item">Withdrawal from Agents</a>
+                    <a href="{{ url_for('details') }}" id="Transfers_to_Mobile_Numbers" class="widget-list-item">Mobile No. Transfers</a>
+                    <a href="{{ url_for('details') }}" id="Payments_to_Code_Holders" class="widget-list-item">Code Holder Transfers</a>
+                    <a href="{{ url_for('details') }}" id="Withdrawals_from_Agents" class="widget-list-item">Withdrawal from Agents</a>
                 </div>
             </button>
             <button class="widget-container">
                 <img class="widget-icon-container"
-                    src="images/other-icon.png"
+                    src="{{ url_for('static', filename='images/other-icon.png') }}"
                     alt="Home Icon"
                     width="200"
                     height="200"
@@ -122,12 +122,14 @@
                     </h3>
                 </div>
                 <div class="widget-list-container">
-                    <a href="details.html" class="widget-list-item">Other Transactions</a>
+                    <a href="{{ url_for('details') }}" id="Transactions_Initiated_by_Third Parties" class="widget-list-item">3rd Party Transactions</a>
+                    <a href="{{ url_for('details') }}" id="Other" class="widget-list-item">Other Transactions</a>
+
                 </div>
             </button>
             <button class="widget-container">
                 <img class="widget-icon-container"
-                    src="images/analytics-icon.png"
+                    src="{{ url_for('static', filename='images/analytics-icon.png') }}"
                     alt="Home Icon"
                     width="200"
                     height="200"
@@ -138,7 +140,7 @@
                     </h3>
                 </div>
                 <div class="widget-list-container">
-                    <a href="analytics.html" class="widget-list-item">Analytics</a>
+                    <a href="{{ url_for('analytics') }}" class="widget-list-item">Analytics</a>
                 </div>
             </button>
             </div>
@@ -150,5 +152,6 @@
             <p>&copy; 2025 MoMo Data Analysis. All rights reserved.</p>
         </div>
     </footer>
+    <script src="{{ url_for('static', filename='scripts/index.js') }}"></script>
 </body>
 </html>
