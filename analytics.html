@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoMo Account Analytics</title>
+    <link rel="stylesheet" href="styles/details.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script src="scripts/analytics.js" defer></script>
+</head>
+<body>
+    <header>
+        <!-- HEADER -->
+        
+        <nav class="nav-bar">
+            <ul class="index-menu">
+                <li>
+                    <div class="header-logo">
+                        <a href="about.html" class="nav-link">
+                            <img class="logo" src="images/mrn-small-logo.png" alt="MoMo Logo" width="100">
+                        </a>
+                    </div>
+                </li>
+                <li class="index-item"><a href="index.html" class="nav-link-active">Home</a></li>
+                <li class="index-item"><a href="about.html" class="nav-link">About</a></li>
+                <li class="index-item"><a href="contact.html"class="nav-link">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- MAIN PAGE -->
+        <div class="homepage-container">
+            <div class="titles-content">
+                <h1>My MoMo Account Analytics</h1>
+            </div>
+        </div>
+        <div class="global-container">
+            <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+        </div>
+    </main>
+    <footer>
+        <!-- FOOTER -->
+        <div class="footer-bottom">
+            <p>&copy; 2025 MoMo Data Analysis. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
