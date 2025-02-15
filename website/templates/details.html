@@ -4,24 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MoMo Account Transactions</title>
-    <link rel="stylesheet" href="styles/details.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/details.css') }}">
+    <script src="scripts/analytics.js"></script>
 </head>
 <body>
     <header>
         <!-- HEADER -->
-        
         <nav class="nav-bar">
             <ul class="index-menu">
                 <li>
                     <div class="header-logo">
-                        <a href="about.html" class="nav-link">
-                            <img class="logo" src="images/mrn-small-logo.png" alt="MoMo Logo" width="100">
+                        <a href="{{ url_for('about') }}" class="nav-link">
+                            <img class="logo" src="{{ url_for('static', filename='images/mrn-small-logo.png') }}" alt="MoMo Logo" width="100">
                         </a>
                     </div>
                 </li>
-                <li class="index-item"><a href="index.html" class="nav-link-active">Home</a></li>
-                <li class="index-item"><a href="about.html" class="nav-link">About</a></li>
-                <li class="index-item"><a href="contact.html"class="nav-link">Contact</a></li>
+                <li class="index-item"><a href="{{ url_for('index') }}" class="nav-link-active">Home</a></li>
+                <li class="index-item"><a href="{{ url_for('about') }}" class="nav-link">About</a></li>
+                <li class="index-item"><a href="{{ url_for('contact') }}" class="nav-link">Contact</a></li>
             </ul>
             <div class="hamburger">
                 <span class="bar"></span>

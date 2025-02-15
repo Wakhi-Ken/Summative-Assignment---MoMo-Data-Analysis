@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MRN MoMo About</title>
-    <link rel="stylesheet" href="styles/about.css">
+    <title>MoMo Account Analytics</title>
+    <link rel="stylesheet" href="styles/details.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script src="scripts/analytics.js" defer></script>
 </head>
 <body>
     <header>
@@ -35,17 +37,11 @@
         <!-- MAIN PAGE -->
         <div class="homepage-container">
             <div class="titles-content">
-                <h1>MRN MoMo Analysis</h1>
-                <h2>Easily manage your MoMo account transactions and details!</h2>
-                <p>Welcome to our SMS Data Processing and Analytics Platform!</p>
-                <p>This website is crafted to simplify the management of your MRN MoMo transactions.</p>
-                <h2>Key Features:</h2>
-                <p>Messages from your mobile messages are presented in an intuitive and user-friendly interface.</p>
-                <p>- Concise categorization to easily locate specific transactions (e.g., utilities, airtime, bank transfer, etc.).</p>
-                <p>- Data is stored in a robust relational database, ensuring data integrity and easy access for future analysis.</p>
-                <p>- Real-time data visualization with interactive charts and graphs to help you understand your spending patterns and financial behavior.</p>
-                <p>- Comprehensive analytics tools to provide deep insights into your finances.</p>
+                <h1>My MoMo Account Analytics</h1>
             </div>
+        </div>
+        <div class="global-container">
+            <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
         </div>
     </main>
     <footer>
