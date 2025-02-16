@@ -1,0 +1,6 @@
+# Store this in .gitignore
+*.db
+*.log
+__pycache__/
+.pytest_cache/
+*.pyc
