@@ -82,5 +82,56 @@ function fetchAllEntries(tableName) {
 }
 
 
+function fetchAllTables() {
+    const messagesContainer = document.getElementById('TopMessages');
 
-fetchAllEntries(selectedType);
+    fetch('/api/messages')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Network response was not ok, status ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Response from /api/messages:', data); // Log the response for debugging
+
+            if (!data) {
+                messagesContainer.textContent = 'No data received from server';
+                console.log("no data provided by server");
+                return;
+            }
+
+            if(!data.tables){
+                messagesContainer.textContent = 'Server did not send `tables`';
+                console.log("server did not send `tables`");
+                return;
+            }
+            if(!Array.isArray(data.tables)){
+                messagesContainer.textContent = 'Server sent invalid type for `tables`';
+                console.log("server sent invalid type for `tables`");
+                return;
+            }
+            
+            if (data.tables.length === 0) {
+                messagesContainer.textContent = 'No tables available';
+                return;
+            }
+
+            const tableNames = data.tables;
+
+            tableNames.forEach(tableName => {
+                fetchAllEntries(tableName);
+            });
+        })
+        .catch(error => {
+            messagesContainer.textContent = 'Error fetching tables';
+            console.error('Error fetching tables:', error);
+        });
+}
+
+
+if (selectedType === "All") {
+    fetchAllTables();
+} else {
+    fetchAllEntries(selectedType);
+}
