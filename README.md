@@ -76,11 +76,11 @@ Frontend Tools (HTML, CSS, JavaScript, Chart.js for visualizations)
 Setup Instructions
 
 1. Clone the repository:
-    git clone 
-    cd fullstack-sms-apppip install -r requirements.txt  # For Python backend
-npm install  # For Node.js backend
+    git clone : https://github.com/Wakhi-Ken/Summative-Assignment---MoMo-Data-Analysis.git
+    cd fullstack-sms-app
 2. Install dependencies:
-    
+    pip install -r requirements.txt - For Python backend
+    npm install  -  For Node.js backend
 3. Set up the database schema:
     python setup_database.py  # Python script to create tables
 4. Run data processing:
