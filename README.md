@@ -77,10 +77,10 @@ Setup Instructions
 
 1. Clone the repository:
     git clone 
-    cd fullstack-sms-app
+    cd fullstack-sms-apppip install -r requirements.txt  # For Python backend
+npm install  # For Node.js backend
 2. Install dependencies:
-    pip install -r requirements.txt  # For Python backend
-    npm install  # For Node.js backend
+    
 3. Set up the database schema:
     python setup_database.py  # Python script to create tables
 4. Run data processing:
