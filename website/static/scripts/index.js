@@ -27,6 +27,10 @@ function addEventListenerToElement(elementId, eventType, callback) {
   }
 }
 
+addEventListenerToElement('All', 'click', function() {
+  localStorage.setItem('selectedType', 'All');
+});
+
 addEventListenerToElement('Incoming_Money', 'click', function() {
     localStorage.setItem('selectedType', 'Incoming_Money');
 });
