@@ -80,8 +80,6 @@ function fetchAllEntries(tableName) {
             console.error('Error fetching entries:', error);
         });
 }
-
-
 function fetchAllTables() {
     const messagesContainer = document.getElementById('TopMessages');
 
@@ -128,7 +126,6 @@ function fetchAllTables() {
             console.error('Error fetching tables:', error);
         });
 }
-
 
 if (selectedType === "All") {
     fetchAllTables();
