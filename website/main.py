@@ -32,15 +32,47 @@ def get_transactions():
     conn.close()
     return transactions
 
-def get_messages(transaction_type):
-    valid_tables = ['Incoming_Money', 'Payments_to_Code_Holders', 'Transfers_to_Mobile_Numbers', 'Bank_Deposits', 'Airtime_Bill_Payments', 'Cash_Power_Bill_Payments', 'Transactions_Initiated_by_Third Parties', 'Withdrawals_from_Agents', 'Bank_Transfers', 'Internet_and_Voice_Bundle_Purchases', 'Others']
-    query = f'SELECT * FROM {transaction_type}'
-    conn = sqlite3.connect('database/mobile_money.db')
-    cursor = conn.cursor()
-    cursor.execute(query)
-    mobile_money = cursor.fetchall()
-    conn.close()
-    return mobile_money
+# Function to fetch all messages for a specific transaction type
+def get_messages(table_name):
+    print(f"get_messages called with table_name: {table_name}")
+
+    # Allowed table names (whitelisting)
+    allowed_tables = {"Incoming_Money", "Payments_To_Code_Holders", "Transfers_to_Mobile_Numbers", "Bank_Deposits", "Airtime_Bill_Payments", "Cash_Power_Bill_Payments", "Transactions_Initiated_by_Third_Parties", "Withdrawals_from_Agents", "Bank_Transfers", "Internet_And_Voice_Bundle_Purchases", "Other"}
+    if table_name not in allowed_tables:
+        print("Invalid table name")
+        return []
+
+    try:
+        with sqlite3.connect('database/mobile_money.db') as conn:
+            cursor = conn.cursor()
+            query = f"SELECT * FROM {table_name} LIMIT 9"  # Select all columns
+            cursor.execute(query)
+            
+            # Fetch all rows and convert them into dictionaries
+            rows = cursor.fetchall()
+            columns = [column[0] for column in cursor.description]
+            messages = [dict(zip(columns, row)) for row in rows]
+
+            print(f"Messages fetched: {messages}")
+            return messages
+
+    except sqlite3.Error as e:
+        print(f"Database error: {e}")
+        return []  # Return empty list on DB error
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+        return []
+
+    
+@app.route('/api/mobile_money')
+def mobile_money():
+    transaction_type = request.args.get('table_name')
+
+    if not transaction_type:
+        return jsonify({'error': 'Table name is required'}), 400
+
+    messages = get_messages(transaction_type)
+    return jsonify({'tmessages': messages})
 
 # Function to fetch the total amount for a specific transaction type
 def get_total_amount_by_type(transaction_type):
@@ -75,6 +107,7 @@ def total_amount():
         return jsonify({'error': 'Transaction type is required'}), 400
     total_amount = get_total_amount_by_type(transaction_type)
     return jsonify({'transaction_type': transaction_type, 'total_amount': total_amount})
+
 
 if __name__ == '__main__':
     app.run(debug=True)

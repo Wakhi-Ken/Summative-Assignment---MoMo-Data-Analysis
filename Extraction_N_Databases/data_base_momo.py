@@ -15,7 +15,7 @@ def get_value(entry, key):
 
 # Create tables
 cursor.execute('''
-CREATE TABLE IF NOT EXISTS IncomingMoney (
+CREATE TABLE IF NOT EXISTS Incoming_Money (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     contact_name TEXT,
     address TEXT,
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS IncomingMoney (
 ''')
 
 cursor.execute('''
-CREATE TABLE IF NOT EXISTS PaymentsToCodeHolders (
+CREATE TABLE IF NOT EXISTS Payments_To_Code_Holders (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     contact_name TEXT,
     address TEXT,
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS PaymentsToCodeHolders (
 ''')
 
 cursor.execute('''
-CREATE TABLE IF NOT EXISTS TransfersToMobileNumbers (
+CREATE TABLE IF NOT EXISTS Transfers_To_Mobile_Numbers (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     contact_name TEXT,
     address TEXT,
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS TransfersToMobileNumbers (
 ''')
 
 cursor.execute('''
-CREATE TABLE IF NOT EXISTS BankDeposits (
+CREATE TABLE IF NOT EXISTS Bank_Deposits (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     contact_name TEXT,
     address TEXT,
@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS BankDeposits (
 ''')
 
 cursor.execute('''
-CREATE TABLE IF NOT EXISTS AirtimeBillPayments (
+CREATE TABLE IF NOT EXISTS Airtime_Bill_Payments (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     contact_name TEXT,
     address TEXT,
@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS AirtimeBillPayments (
 ''')
 
 cursor.execute('''
-CREATE TABLE IF NOT EXISTS CashPowerBillPayments (
+CREATE TABLE IF NOT EXISTS Cash_Power_Bill_Payments (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     contact_name TEXT,
     address TEXT,
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS CashPowerBillPayments (
 ''')
 
 cursor.execute('''
-CREATE TABLE IF NOT EXISTS TransactionsInitiatedbyThirdParties (
+CREATE TABLE IF NOT EXISTS Transactions_Initiated_by_Third_Parties (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     contact_name TEXT,
     address TEXT,
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS TransactionsInitiatedbyThirdParties (
 ''')
 
 cursor.execute('''
-CREATE TABLE IF NOT EXISTS WithdrawalsfromAgents (
+CREATE TABLE IF NOT EXISTS Withdrawals_from_Agents (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     contact_name TEXT,
     address TEXT,
@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS WithdrawalsfromAgents (
 ''')
 
 cursor.execute('''
-CREATE TABLE IF NOT EXISTS BankTransfers (
+CREATE TABLE IF NOT EXISTS Bank_Transfers (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     contact_name TEXT,
     address TEXT,
@@ -150,7 +150,7 @@ CREATE TABLE IF NOT EXISTS BankTransfers (
 ''')
 
 cursor.execute('''
-CREATE TABLE IF NOT EXISTS InternetAndVoiceBundlePurchases (
+CREATE TABLE IF NOT EXISTS Internet_And_Voice_Bundle_Purchases (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     contact_name TEXT,
     address TEXT,
@@ -182,7 +182,7 @@ CREATE TABLE IF NOT EXISTS Other (
 # Insert data into IncomingMoney
 for entry in data.get('Incoming_Money', []):
     cursor.execute('''
-    INSERT INTO IncomingMoney (contact_name, address, date_sent, readable_date, body, service_center, amount, sender, new_balance)
+    INSERT INTO Incoming_Money (contact_name, address, date_sent, readable_date, body, service_center, amount, sender, new_balance)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     ''', (
         get_value(entry, 'contact_name'),
@@ -197,9 +197,9 @@ for entry in data.get('Incoming_Money', []):
     ))
 
 # Insert data into PaymentsToCodeHolders
-for entry in data.get('Payments_to_Code_Holderss', []):
+for entry in data.get('Payments_to_Code_Holders', []):
     cursor.execute('''
-    INSERT INTO PaymentsToCodeHolders (contact_name, address, date_sent, readable_date, body, service_center, amount, recipient, new_balance)
+    INSERT INTO Payments_to_Code_Holders (contact_name, address, date_sent, readable_date, body, service_center, amount, recipient, new_balance)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     ''', (
         get_value(entry, 'contact_name'),
@@ -216,7 +216,7 @@ for entry in data.get('Payments_to_Code_Holderss', []):
 # Insert data into TransfersToMobileNumbers
 for entry in data.get('Transfers_to_Mobile_Numbers', []):
     cursor.execute('''
-    INSERT INTO TransfersToMobileNumbers (contact_name, address, date_sent, readable_date, body, service_center, amount, recipient, new_balance)
+    INSERT INTO Transfers_to_Mobile_Numbers (contact_name, address, date_sent, readable_date, body, service_center, amount, recipient, new_balance)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     ''', (
         get_value(entry, 'contact_name'),
@@ -233,7 +233,7 @@ for entry in data.get('Transfers_to_Mobile_Numbers', []):
 # Insert data into BankDeposits
 for entry in data.get('Bank_Deposits', []):
     cursor.execute('''
-    INSERT INTO BankDeposits (contact_name, address, date_sent, readable_date, body, service_center, amount, recipient, new_balance)
+    INSERT INTO Bank_Deposits (contact_name, address, date_sent, readable_date, body, service_center, amount, recipient, new_balance)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     ''', (
         get_value(entry, 'contact_name'),
@@ -250,7 +250,7 @@ for entry in data.get('Bank_Deposits', []):
 # Insert data into AirtimeBillPayments
 for entry in data.get('Airtime_Bill_Payments', []):
     cursor.execute('''
-    INSERT INTO AirtimeBillPayments (contact_name, address, date_sent, readable_date, body, service_center, amount, recipient, new_balance)
+    INSERT INTO Airtime_Bill_Payments (contact_name, address, date_sent, readable_date, body, service_center, amount, recipient, new_balance)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     ''', (
         get_value(entry, 'contact_name'),
@@ -267,7 +267,7 @@ for entry in data.get('Airtime_Bill_Payments', []):
 # Insert data into CashPowerBillPayments
 for entry in data.get('Cash_Power_Bill_Payments', []):
     cursor.execute('''
-    INSERT INTO CashPowerBillPayments (contact_name, address, date_sent, readable_date, body, service_center, amount, recipient, new_balance)
+    INSERT INTO Cash_Power_Bill_Payments (contact_name, address, date_sent, readable_date, body, service_center, amount, recipient, new_balance)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     ''', (
         get_value(entry, 'contact_name'),
@@ -282,9 +282,9 @@ for entry in data.get('Cash_Power_Bill_Payments', []):
     ))
 
 # Insert data into TransactionsInitiatedbyThirdParties
-for entry in data.get('Transactions_Initiated_by_Third Parties', []):
+for entry in data.get('Transactions_Initiated_by_Third_Parties', []):
     cursor.execute('''
-    INSERT INTO TransactionsInitiatedbyThirdParties (contact_name, address, date_sent, readable_date, body, service_center, amount, recipient, new_balance)
+    INSERT INTO Transactions_Initiated_by_Third_Parties (contact_name, address, date_sent, readable_date, body, service_center, amount, recipient, new_balance)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     ''', (
         get_value(entry, 'contact_name'),
@@ -301,7 +301,7 @@ for entry in data.get('Transactions_Initiated_by_Third Parties', []):
 # Insert data into WithdrawalsfromAgents
 for entry in data.get('Withdrawals_from_Agents', []):
     cursor.execute('''
-    INSERT INTO WithdrawalsfromAgents (contact_name, address, date_sent, readable_date, body, service_center, amount, recipient, new_balance)
+    INSERT INTO Withdrawals_from_Agents (contact_name, address, date_sent, readable_date, body, service_center, amount, recipient, new_balance)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     ''', (
         get_value(entry, 'contact_name'),
@@ -318,7 +318,7 @@ for entry in data.get('Withdrawals_from_Agents', []):
 # Insert data into BankTransfers
 for entry in data.get('Bank_Transfers', []):
     cursor.execute('''
-    INSERT INTO BankTransfers (contact_name, address, date_sent, readable_date, body, service_center, amount, recipient, new_balance)
+    INSERT INTO Bank_Transfers (contact_name, address, date_sent, readable_date, body, service_center, amount, recipient, new_balance)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     ''', (
         get_value(entry, 'contact_name'),
@@ -335,7 +335,7 @@ for entry in data.get('Bank_Transfers', []):
 # Insert data into InternetAndVoiceBundlePurchases
 for entry in data.get('Internet_and_Voice_Bundle_Purchases', []):
     cursor.execute('''
-    INSERT INTO InternetAndVoiceBundlePurchases (contact_name, address, date_sent, readable_date, body, service_center, amount, recipient, new_balance)
+    INSERT INTO Internet_and_Voice_Bundle_Purchases (contact_name, address, date_sent, readable_date, body, service_center, amount, recipient, new_balance)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     ''', (
         get_value(entry, 'contact_name'),

@@ -51,8 +51,8 @@ addEventListenerToElement('Cash_Power_Bill_Payments', 'click', function() {
     localStorage.setItem('selectedType', 'Cash_Power_Bill_Payments');
 });
 
-addEventListenerToElement('Transactions_Initiated_by_Third Parties', 'click', function() {
-    localStorage.setItem('selectedType', 'Transactions_Initiated_by_Third Parties');
+addEventListenerToElement('Transactions_Initiated_by_Third_Parties', 'click', function() {
+    localStorage.setItem('selectedType', 'Transactions_Initiated_by_Third_Parties');
 });
 
 addEventListenerToElement('Withdrawals_from_Agents', 'click', function() {
