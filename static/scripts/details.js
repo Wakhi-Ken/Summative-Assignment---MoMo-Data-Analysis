@@ -30,5 +30,57 @@ function fetchTotalAmount(type) {
         })
         .catch(error => console.error('Error fetching total amount:', error));
 }
-
 fetchTotalAmount(selectedType);
+
+function fetchAllEntries(tableName) {
+    const messagesContainer = document.getElementById('TopMessages');
+
+    if (!tableName) {
+        messagesContainer.textContent = 'Invalid table name';
+        console.log("Invalid table name provided");
+        return;
+    }
+
+    fetch(`/api/mobile_money?table_name=${encodeURIComponent(tableName)}`)
+        .then(response => response.json())
+        .then(data => {
+            if (!data || !Array.isArray(data.tmessages) || data.tmessages.length === 0) {
+                messagesContainer.textContent = 'No messages available';
+                return;
+            }
+
+            const messageItems = data.tmessages.map(msg => {
+                // Check if the table is "Incoming Money" to use the 'sender' field
+                const isIncomingMoneyTable = tableName === "Incoming_Money";
+
+                // Get the appropriate field (recipient or sender)
+                const transactionPerson = isIncomingMoneyTable ? msg.sender : msg.recipient;
+
+                return `
+                    <div class="trans-header">
+                        <div>
+                            <h2>${tableName}</h2>
+                            <p>Amount: ${msg.amount}</p>
+                            <p>New Balance: ${msg.new_balance}</p>
+                        </div>
+                        <div class="trans-info">
+                            <h3>Transaction Details:</h3>
+                            <p><strong>Date Sent:</strong> ${msg.date_sent}</p>
+                            <p><strong>${isIncomingMoneyTable ? "Sender" : "Recipient"}:</strong> ${transactionPerson}</p>
+                            <p><strong>Service Center:</strong> ${msg.service_center}</p>
+                        </div>
+                    </div>
+                `;
+            });
+
+            messagesContainer.innerHTML = messageItems.join('');
+        })
+        .catch(error => {
+            messagesContainer.textContent = 'Error fetching messages';
+            console.error('Error fetching entries:', error);
+        });
+}
+
+
+
+fetchAllEntries(selectedType);
