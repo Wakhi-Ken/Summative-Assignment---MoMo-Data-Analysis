@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MoMo Account Analytics</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/details.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/analytics.css') }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
     <script src="{{ url_for('static', filename='scripts/analytics.js')}}" defer></script>
 </head>
@@ -34,14 +34,14 @@
     </header>
 
     <main>
-        <!-- MAIN PAGE -->
+        <!-- ANALYTICS PAGE -->
         <div class="homepage-container">
             <div class="titles-content">
                 <h1>My MoMo Account Analytics</h1>
             </div>
         </div>
         <div class="global-container">
-            <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+            <canvas id="balanceChart" style="width:100%;max-width:700px"></canvas>
         </div>
     </main>
     <footer>

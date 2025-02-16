@@ -3,6 +3,7 @@ import logging
 import sqlite3
 app = Flask(__name__)
 
+
 # Routes to serve the HTML pages
 @app.route('/')
 def index():
@@ -121,7 +122,7 @@ def get_messages_from_database(table_name):
             cursor = conn.cursor()
 
             print(f"Fetching data from table: {table_name}")
-            query = f"SELECT * FROM {table_name} LIMIT 1" 
+            query = f"SELECT * FROM {table_name} LIMIT 10" 
             cursor.execute(query)
 
             rows = cursor.fetchall()
@@ -160,6 +161,17 @@ def get_tables():
         logging.error(f"Error in /api/messages: {e}")
         return jsonify({"error": "Internal Server Error"}), 500
 
+def get_balances():
+    conn = sqlite3.connect("database/balances.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT transaction_type, amount FROM Balances")
+    data = cursor.fetchall()
+    conn.close()
+    return [{"transaction_type": row[0], "amount": row[1]} for row in data]
+
+@app.route("/balances", methods=["GET"])
+def balances():
+    return jsonify(get_balances())
 
 if __name__ == '__main__':
     app.run(debug=True)
