@@ -94,7 +94,6 @@ def get_total_amount_by_type(transaction_type):
     except Exception as e:
         print(f"Error: {e}")
         return 0
-
 # Route to fetch the total amount for a specific transaction type   
 @app.route('/api/total_amount')
 def total_amount():
@@ -103,6 +102,7 @@ def total_amount():
         return jsonify({'error': 'Transaction type is required'}), 400
     total_amount = get_total_amount_by_type(transaction_type)
     return jsonify({'transaction_type': transaction_type, 'total_amount': total_amount})
+
 
 # Function to fetch all messages for all transaction types
 def get_messages_from_database(table_name):
@@ -122,7 +122,59 @@ def get_messages_from_database(table_name):
             cursor = conn.cursor()
 
             print(f"Fetching data from table: {table_name}")
-            query = f"SELECT * FROM {table_name} LIMIT 10" 
+            query = f"SELECT * FROM {table_name}" 
+            cursor.execute(query)
+
+            rows = cursor.fetchall()
+            columns = [column[0] for column in cursor.description]
+            messages = [dict(zip(columns, row)) for row in rows]
+
+            print(f"Fetched {len(messages)} messages from table {table_name}")
+            return messages
+
+    except sqlite3.Error as e:
+        print(f"Database error: {e}")
+        return [] 
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+        return []
+# Route to fetch all messages for all transaction types
+@app.route('/api/messages')
+def get_tables():
+    print("in /api/messages")
+    logging.debug("Entering /api/messages route handler")
+
+    table_names = ["Incoming_Money", "Payments_To_Code_Holders", "Transfers_to_Mobile_Numbers", 
+                  "Bank_Deposits", "Airtime_Bill_Payments", "Cash_Power_Bill_Payments", 
+                  "Transactions_Initiated_by_Third_Parties", "Withdrawals_from_Agents", 
+                   "Bank_Transfers", "Internet_And_Voice_Bundle_Purchases", "Other"]
+
+    logging.debug(f"Retrieved table names: {table_names}")
+
+    response_object = {"tables": table_names}
+
+    logging.debug(f"Response object before jsonify: {response_object}")
+
+    return jsonify(response_object)
+
+def fetch_messages_from_table(table_name):
+    print(f"fetch_messages_from_table called with table_name: {table_name}")
+
+    allowed_tables = {"Incoming_Money", "Payments_To_Code_Holders", "Transfers_to_Mobile_Numbers", 
+                      "Bank_Deposits", "Airtime_Bill_Payments", "Cash_Power_Bill_Payments", 
+                      "Transactions_Initiated_by_Third_Parties", "Withdrawals_from_Agents", 
+                      "Bank_Transfers", "Internet_And_Voice_Bundle_Purchases", "Other"}
+
+    if table_name not in allowed_tables:
+        print(f"Table '{table_name}' is not in allowed_tables.")
+        return []
+
+    try:
+        with sqlite3.connect('database/mobile_money.db') as conn:
+            cursor = conn.cursor()
+
+            print(f"Fetching data from table: {table_name}")
+            query = f"SELECT * FROM {table_name}" 
             cursor.execute(query)
 
             rows = cursor.fetchall()
@@ -139,27 +191,29 @@ def get_messages_from_database(table_name):
         print(f"Unexpected error: {e}")
         return []
 
-@app.route('/api/messages')
-def get_tables():
-    print("in /api/messages")
-    logging.debug("Entering /api/messages route handler")
+# Route to fetch all messages from all transaction tables
+@app.route('/api/all_messages')
+def fetch_all_messages():
+    print("in /api/all_messages")
+    logging.debug("Entering /api/all_messages route handler")
 
-    try:
-        table_names = ["Incoming_Money", "Payments_To_Code_Holders", "Transfers_to_Mobile_Numbers", 
-                      "Bank_Deposits", "Airtime_Bill_Payments", "Cash_Power_Bill_Payments", 
-                      "Transactions_Initiated_by_Third_Parties", "Withdrawals_from_Agents", 
-                      "Bank_Transfers", "Internet_And_Voice_Bundle_Purchases", "Other"]
+    table_names = ["Incoming_Money", "Payments_To_Code_Holders", "Transfers_to_Mobile_Numbers", 
+                  "Bank_Deposits", "Airtime_Bill_Payments", "Cash_Power_Bill_Payments", 
+                  "Transactions_Initiated_by_Third_Parties", "Withdrawals_from_Agents", 
+                  "Bank_Transfers", "Internet_And_Voice_Bundle_Purchases", "Other"]
 
-        logging.debug(f"Retrieved table names: {table_names}")
+    logging.debug(f"Retrieved table names: {table_names}")
 
-        response_object = {"tables": table_names}
+    all_messages = {}
 
-        logging.debug(f"Response object before jsonify: {response_object}")
+    for table in table_names:
+        all_messages[table] = fetch_messages_from_table(table)
 
-        return jsonify(response_object)
-    except Exception as e:
-        logging.error(f"Error in /api/messages: {e}")
-        return jsonify({"error": "Internal Server Error"}), 500
+    logging.debug(f"Response object before jsonify: {all_messages}")
+
+    return jsonify(all_messages)
+
+
 
 def get_balances():
     conn = sqlite3.connect("database/balances.db")
@@ -172,6 +226,8 @@ def get_balances():
 @app.route("/balances", methods=["GET"])
 def balances():
     return jsonify(get_balances())
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

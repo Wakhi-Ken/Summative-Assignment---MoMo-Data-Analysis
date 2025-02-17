@@ -53,7 +53,6 @@ function fetchAllEntries(tableName) {
                 // Check if the table is "Incoming Money" to use the 'sender' field
                 const isIncomingMoneyTable = tableName === "Incoming_Money";
 
-                // Get the appropriate field (recipient or sender)
                 const transactionPerson = isIncomingMoneyTable ? msg.sender : msg.recipient;
 
                 return `
