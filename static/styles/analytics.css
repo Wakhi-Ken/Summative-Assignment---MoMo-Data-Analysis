@@ -281,9 +281,9 @@ main {
 
 .global-container {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    position: relative;
     gap: 20px;
     padding: 20px;
     margin:0px;
@@ -296,7 +296,6 @@ main {
   float:left;
   padding: 10px;
   display: flex;
-  flex-direction: column;
   text-align: center;
   align-items: center;
   justify-content: center;  
@@ -366,19 +365,18 @@ main {
 .info-container p {
 color: var(--primary-font-color-alt);
 }
-.trans-container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 1fr;
-  grid-column-gap: 10px;
+.table-container {
+  display: flex;
+  text-align: center;
+  align-items: center;
   justify-content: center;
 }
 
-.trans-container h2,
-.trans-container p{
+.table-container h2,
+.table-container p{
   color: var(--primary-font-color-alt);
 }
-.trans-container p {
+.table-container p {
   padding-left: 2px;
 }
 
@@ -401,21 +399,7 @@ color: var(--primary-font-color-alt);
   color: var(--primary-font-color);
 }
 
-.next10 button{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  background-color: var(--primary-color);
-  width: 100%;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px var(--shadow-color);
-}
 
-.next10 button:hover {
-  background-color: var(--background-color);
-}
 @media (max-width: 768px) {
     .global-container {
       display: flex;
