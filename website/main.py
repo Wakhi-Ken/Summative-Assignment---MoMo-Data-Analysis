@@ -49,7 +49,7 @@ def get_messages(table_name):
     try:
         with sqlite3.connect('database/mobile_money.db') as conn:
             cursor = conn.cursor()
-            query = f"SELECT * FROM {table_name} LIMIT 9"  # Select all columns
+            query = f"SELECT * FROM {table_name}"  # Select all columns
             cursor.execute(query)
             
             # Fetch all rows and convert them into dictionaries

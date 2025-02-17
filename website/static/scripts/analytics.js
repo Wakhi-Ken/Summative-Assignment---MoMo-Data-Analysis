@@ -68,7 +68,7 @@ async function fetchBalances() {
               });
   
               // Update the container with the top messages
-              messagesContainer.innerHTML += `<div class='table-container'><h2>Highest values for ${tableName}</h2>${messageItems.join('')}</div>`;
+              messagesContainer.innerHTML += `<div class='table-container'>${messageItems.join('')}</div>`;
           })
           .catch(error => {
               messagesContainer.textContent = 'Error fetching messages';
