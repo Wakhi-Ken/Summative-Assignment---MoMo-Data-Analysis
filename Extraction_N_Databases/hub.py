@@ -2,6 +2,7 @@ import json
 import re
 import xml.etree.ElementTree as ET
 from datetime import datetime
+import locale
 
 # Load and parse the XML file
 tree = ET.parse('modified_sms.xml')
@@ -14,7 +15,7 @@ keywords = {
     "Transfers_to_Mobile_Numbers": ["transfer", "sent to"],
     "Bank_Deposits": ["bank deposit", "deposited"],
     "Airtime_Bill_Payments": ["Amafaranga"],
-    "Cash_Power_Bill_Payments": ["cash power", "electricity bill"],
+    "Cash_Power_Bill_Payments": ["MTN Cash Power"],
     "Transactions_Initiated_by_Third Parties": ["transaction", "initiated by"],
     "Withdrawals_from_Agents": ["withdrawal", "agent"],
     "Bank_Transfers": ["bank transfer", "transferred"],
@@ -110,6 +111,12 @@ def extract_rwf_amount(text):
         amounts.append(float(amount.replace(',', '')))
     return amounts
 
+# Set locale to Rwanda (RWF) for formatting, adjust based on available locales
+try:
+    locale.setlocale(locale.LC_ALL, 'rw_RW,UTF-8')  # Rwanda locale
+except locale.Error:
+    print("Locale rw_RW.UTF-8 is not available. Using manual formatting.")
+
 # Initialize balances for each category
 category_balances = {key: 0 for key in categorized_sms.keys()}
 
@@ -122,10 +129,20 @@ for category, messages in categorized_sms.items():
             # Sum the amounts for the category
             category_balances[category] += sum(amounts)
 
-# Save the balances to balances.json
+# Format the balances for output
+formatted_balances = {}
+for category, balance in category_balances.items():
+    # Format the balance as RWF (manually if locale is unavailable, or using locale.currency if available)
+    if locale.getlocale()[0] == 'rw_RW':  # Check if locale is set to Rwanda
+        formatted_balances[category] = locale.currency(balance, grouping=True)
+    else:
+        # Fallback manual formatting
+        formatted_balances[category] = f"RWF {balance:,.2f}"
+
+# Save the formatted balances to balances.json
 with open('balances.json', 'w') as balances_file:
-    json.dump(category_balances, balances_file, indent=4)
+    json.dump(formatted_balances, balances_file, indent=4)
 
 # Print the final results for review
-for category, balance in category_balances.items():
-    print(f"{category}: Total RWF {balance:.2f}")
+for category, balance in formatted_balances.items():
+    print(f"{category}: Total {balance}")
