@@ -84,9 +84,9 @@ Setup Instructions
 3. Set up the database schema:
     python setup_database.py  # Python script to create tables
 4. Run data processing:
-    python process_sms.py  # Parses XML and inserts into DB
+    python process.py  # Parses XML and inserts into DB
 5. Start the backend server:
-    python app.py  # Flask API
+    python hub.py  # Flask API
 6. Start the frontend:
     open index.html  # Or use a local server
 
