@@ -19,7 +19,7 @@ Database Design and Implementation Relational Database Design a schema that capt
 Frontend Dashboard Development Dashboard Requirements Build an interactive dashboard using HTML, CSS, and JavaScript.
 
 
-## When you run the provided Python files in the specified order, here's what happens in each step:
+When you run the provided Python files in the specified order, here's what happens in each step:
 
 1. hub.py:
 This script reads an XML file (modified_sms.xml) and extracts data based on specified key categories.
