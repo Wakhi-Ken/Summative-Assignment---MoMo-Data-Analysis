@@ -9,9 +9,9 @@ with open('updated_process.json', 'r') as file:
 conn = sqlite3.connect('mobile_money.db')
 cursor = conn.cursor()
 
-# Function to handle missing keys
+# Function to handle missing keys and return 'N/a' if key is missing
 def get_value(entry, key):
-    return entry.get(key, 'N/a')  # Return 'N/a' if key is missing
+    return entry.get(key, 'N/a')
 
 # Create tables
 cursor.execute('''
@@ -366,7 +366,6 @@ for entry in data.get('Other', []):
         get_value(entry, 'new_balance')
     ))
 
-# Commit changes and close the connection
 conn.commit()
 conn.close()
 

@@ -1,11 +1,11 @@
 import json
 import re
 
-# Load the JSON data
+# Loading data from process.json
 with open('process.json', 'r') as file:
     data = json.load(file)
 
-# Function to extract relevant fields from the body
+# Function to extract relevant fields from the body in the process.json data
 def extract_fields(body):
     fields = {}
     
@@ -14,33 +14,33 @@ def extract_fields(body):
     amounts = [match[0] if match[0] else match[1] for match in amounts]
 
     if "You have received" in body and amounts:
-        fields['amount'] = amounts[0] + " RWF"  # Amount received
+        fields['amount'] = amounts[0] + " RWF"
         sender_start = body.find('from') + len('from ')
         sender_end = body.find(' (', sender_start)
-        fields['sender'] = body[sender_start:sender_end]  # Sender name
-        fields['new_balance'] = amounts[-1] + " RWF"  # New balance
+        fields['sender'] = body[sender_start:sender_end]
+        fields['new_balance'] = amounts[-1] + " RWF"
 
     elif "Your payment of" in body and amounts:
-        fields['amount'] = amounts[0] + " RWF"  # Amount paid
+        fields['amount'] = amounts[0] + " RWF"
         recipient_start = body.find('to') + len('to ')
         recipient_end = body.find(' ', recipient_start)
-        fields['recipient'] = body[recipient_start:recipient_end]  # Recipient name
-        fields['new_balance'] = amounts[-1] + " RWF"  # New balance
+        fields['recipient'] = body[recipient_start:recipient_end]
+        fields['new_balance'] = amounts[-1] + " RWF"
 
     elif "transferred to" in body and amounts:
-        fields['amount'] = amounts[0] + " RWF"  # Amount transferred
+        fields['amount'] = amounts[0] + " RWF"
         recipient_start = body.find('to') + len('to ')
         recipient_end = body.find(' (', recipient_start)
-        fields['recipient'] = body[recipient_start:recipient_end]  # Recipient name
-        fields['new_balance'] = amounts[-1] + " RWF"  # New balance
+        fields['recipient'] = body[recipient_start:recipient_end]
+        fields['new_balance'] = amounts[-1] + " RWF"
 
     elif "A bank deposit of" in body and amounts:
-        fields['amount'] = amounts[0] + " RWF"  # Amount deposited
-        fields['new_balance'] = amounts[-1] + " RWF"  # New balance
+        fields['amount'] = amounts[0] + " RWF"
+        fields['new_balance'] = amounts[-1] + " RWF"
 
     elif "transaction of" in body and amounts:
-        fields['amount'] = amounts[0] + " RWF"  # Amount in transaction
-        fields['new_balance'] = amounts[-1] + " RWF"  # New balance
+        fields['amount'] = amounts[0] + " RWF"
+        fields['new_balance'] = amounts[-1] + " RWF"
 
     return fields
 

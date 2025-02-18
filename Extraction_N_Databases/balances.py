@@ -1,7 +1,7 @@
 import sqlite3
 import json
 
-# Load JSON data
+# Load JSON data from balances.json
 with open('balances.json', 'r') as file:
     data = json.load(file)
 
@@ -9,7 +9,7 @@ with open('balances.json', 'r') as file:
 conn = sqlite3.connect('balances.db')
 cursor = conn.cursor()
 
-# Create a table to store the balances
+# Create a table to store the balances(totals)
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS Balances (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -25,7 +25,6 @@ for transaction_type, amount in data.items():
     VALUES (?, ?)
     ''', (transaction_type, amount))
 
-# Commit changes and close the connection
 conn.commit()
 conn.close()
 
