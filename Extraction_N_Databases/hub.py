@@ -4,11 +4,11 @@ import xml.etree.ElementTree as ET
 from datetime import datetime
 import locale
 
-# Load and parse the XML file
+# Load and parse the modified_sms.xml file
 tree = ET.parse('modified_sms.xml')
 root = tree.getroot()
 
-# Define keywords for categorization
+# Define keywords for categorization which will targed the body containg information of transactions in each sms
 keywords = {
     "Incoming_Money": ["received", "incoming money"],
     "Payments_to_Code_Holders": ["payment", "paid"],
@@ -27,16 +27,15 @@ keywords = {
 categorized_sms = {key: [] for key in keywords.keys()}
 unprocessed_messages = []
 
+# Convert timestamp to a readable date format
 def normalize_date(timestamp):
-    """Convert timestamp to a readable date format."""
     try:
         return datetime.fromtimestamp(int(timestamp) / 1000).strftime('%Y-%m-%d %H:%M:%S')
     except Exception:
         return None
 
-# Iterate over each <sms> element
+# Iterate over each <sms> element and extracts relevant attributes
 for sms in root.findall('sms'):
-    # Extract relevant attributes
     body = sms.attrib.get('body')
     address = sms.attrib.get('address')
     date_sent = sms.attrib.get('date_sent')
@@ -53,10 +52,10 @@ for sms in root.findall('sms'):
         unprocessed_messages.append("Missing date_sent.")
         continue
 
-    # Normalize date
+    # Normalizing the date
     formatted_date = normalize_date(date_sent)
 
-    # Categorization logic
+    # Categorization
     categorized = False
     for category, keys in keywords.items():
         if any(keyword in body.lower() for keyword in keys):
@@ -69,7 +68,7 @@ for sms in root.findall('sms'):
                 "service_center": service_center
             })
             categorized = True
-            break  # Stop checking once categorized
+            break
 
     if not categorized:
         categorized_sms["Other"].append({
@@ -81,7 +80,7 @@ for sms in root.findall('sms'):
             "service_center": service_center
         })
 
-# Store categorized messages in a single JSON file
+# Store categorized messages in a single JSON file called process.json
 with open('process.json', 'w') as json_file:
     json.dump(categorized_sms, json_file, indent=4)
 
@@ -100,7 +99,6 @@ with open('process.json', 'r') as json_file:
 
 # Function to extract RWF amounts from the text using regex
 def extract_rwf_amount(text):
-    """Extract RWF amounts from the text using regex."""
     # Match patterns like "RWF 1000", "1000 RWF", "RWF1,000", etc.
     matches = re.findall(r'RWF\s*([\d,]+(?:\.\d{1,2})?)|([\d,]+(?:\.\d{1,2})?)\s*RWF', text)
     amounts = []
@@ -113,14 +111,12 @@ def extract_rwf_amount(text):
 
 # Set locale to Rwanda (RWF) for formatting, adjust based on available locales
 try:
-    locale.setlocale(locale.LC_ALL, 'rw_RW,UTF-8')  # Rwanda locale
+    locale.setlocale(locale.LC_ALL, 'rw_RW,UTF-8')
 except locale.Error:
     print("Locale rw_RW.UTF-8 is not available. Using manual formatting.")
-
-# Initialize balances for each category
+# Initialize balances(totals) for each category
 category_balances = {key: 0 for key in categorized_sms.keys()}
-
-# Calculate balances for each category
+# Calculate balances(totals) for each category
 for category, messages in categorized_sms.items():
     for message in messages:
         body = message.get('body', '')
@@ -133,13 +129,13 @@ for category, messages in categorized_sms.items():
 formatted_balances = {}
 for category, balance in category_balances.items():
     # Format the balance as RWF (manually if locale is unavailable, or using locale.currency if available)
-    if locale.getlocale()[0] == 'rw_RW':  # Check if locale is set to Rwanda
+    if locale.getlocale()[0] == 'rw_RW':
         formatted_balances[category] = locale.currency(balance, grouping=True)
     else:
         # Fallback manual formatting
         formatted_balances[category] = f"RWF {balance:,.2f}"
-
-# Save the formatted balances to balances.json
+        
+# Save the balances(totals) to balances.json
 with open('balances.json', 'w') as balances_file:
     json.dump(formatted_balances, balances_file, indent=4)
 

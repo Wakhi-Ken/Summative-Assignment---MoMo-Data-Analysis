@@ -7,20 +7,19 @@ if (buttons.length > 0) {
   buttons.forEach(button => {
     button.addEventListener('click', function(event) {
       console.log('A button clicked');
-      //no event.preventDefault() here to let the page navigate
     });
   });
 } else {
   console.log('could not find my element');
 }
 
-// Function to add event listener if element exists
+
 function addEventListenerToElement(elementId, eventType, callback) {
   const element = document.getElementById(elementId);
   if (element) {
     element.addEventListener(eventType, function(event) {
-      //no event.preventDefault() here to let the page navigate
-      callback(); // Call the original callback function
+
+      callback();
     });
   } else {
     console.log(`Element with ID '${elementId}' not found.`);
