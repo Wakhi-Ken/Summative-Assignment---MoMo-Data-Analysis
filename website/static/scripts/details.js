@@ -57,6 +57,33 @@ function displayMessages(messages, tableName) {
         `;
     });
 
+    messagesContainer.innerHTML = messageItems.join("");
+}
+
+function displayAllMessages(messages, tableName) {
+    const messagesContainer = document.getElementById("TopMessages");
+
+    const messageItems = messages.map((msg) => {
+        const isIncomingMoneyTable = tableName === "Incoming_Money";
+        const transactionPerson = isIncomingMoneyTable ? msg.sender : msg.recipient;
+
+        return `
+            <div class="trans-header">
+                <div>
+                    <h2>${tableName}</h2>
+                    <p>Amount: ${msg.amount}</p>
+                    <p>New Balance: ${msg.new_balance}</p>
+                </div>
+                <div class="trans-info">
+                    <h3>Transaction Details:</h3>
+                    <p><strong>Date Sent:</strong> ${msg.date_sent}</p>
+                    <p><strong>${isIncomingMoneyTable ? "Sender" : "Recipient"}:</strong> ${transactionPerson}</p>
+                    <p><strong>Service Center:</strong> ${msg.service_center}</p>
+                </div>
+            </div>
+        `;
+    });
+
     messagesContainer.innerHTML += messageItems.join("");
 }
 
@@ -79,7 +106,11 @@ function fetchAllEntries(tableName) {
 
             globalData = data;
 
-            displayMessages(data.tmessages, tableName);
+            if (selectedType === "All") {
+                displayAllMessages(data.tmessages, tableName);}
+                else {
+                    displayMessages(data.tmessages, tableName);
+                }
             return true;
         })
         .catch((error) => {
@@ -158,7 +189,9 @@ fetchTotalAmount(selectedType);
 
 if (selectedType === "All") {
     var element = document.querySelector(".dropbtn");
-    element.remove();
+        element.remove();
+    var element = document.querySelector(".info-container");
+        element.remove();
     fetchAllTables();
     
 } else {
