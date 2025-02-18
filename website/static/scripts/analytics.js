@@ -1,10 +1,13 @@
 async function fetchBalances() {
     const response = await fetch("http://127.0.0.1:5000/balances");
     const data = await response.json();
-    
+
+    // Convert amount from "RWF 12,040,754.00" to a number
     const labels = data.map(item => item.transaction_type);
-    const values = data.map(item => item.amount);
-  
+    const values = data.map(item => 
+        parseFloat(item.amount.replace(/[^\d.-]/g, "")) // Remove "RWF" and commas
+    );
+
     const ctx = document.getElementById("balanceChart").getContext("2d");
     new Chart(ctx, {
         type: "bar",
@@ -13,13 +16,13 @@ async function fetchBalances() {
             datasets: [{
                 label: "Total Transactions",
                 data: values,
-                backgroundColor: ["#ffcc08", "#ffcc08", "#ffcc08", "#ffcc08", "#ffcc08", "#ffcc08", "#ffcc08", "#ffcc08", "#ffcc08", "#ffcc08", "#ffcc08"],
+                backgroundColor: "#ffcc08",
                 borderColor: '#01668e',
-                    borderWidth: 1
+                borderWidth: 1
             }]
         }
     });
-  }
+}
   fetchBalances()
   
   function fetchAllEntries(tableName) {

@@ -213,7 +213,7 @@ def fetch_all_messages():
     return jsonify(all_messages)
 
 
-
+# Function to fetch all balances from all transaction tables
 def get_balances():
     conn = sqlite3.connect("database/balances.db")
     cursor = conn.cursor()
@@ -221,7 +221,7 @@ def get_balances():
     data = cursor.fetchall()
     conn.close()
     return [{"transaction_type": row[0], "amount": row[1]} for row in data]
-
+# Route to fetch all balances from all transaction tables
 @app.route("/balances", methods=["GET"])
 def balances():
     return jsonify(get_balances())
