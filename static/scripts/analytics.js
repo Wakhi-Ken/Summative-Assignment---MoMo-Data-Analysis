@@ -2,10 +2,9 @@ async function fetchBalances() {
     const response = await fetch("http://127.0.0.1:5000/balances");
     const data = await response.json();
 
-    // Convert amount from "RWF 12,040,754.00" to a number
     const labels = data.map(item => item.transaction_type);
     const values = data.map(item => 
-        parseFloat(item.amount.replace(/[^\d.-]/g, "")) // Remove "RWF" and commas
+        parseFloat(item.amount.replace(/[^\d.-]/g, ""))
     );
 
     const ctx = document.getElementById("balanceChart").getContext("2d");
