@@ -2,6 +2,7 @@ import json
 import re
 import xml.etree.ElementTree as ET
 from datetime import datetime
+import locale
 
 # Load and parse the modified_sms.xml file
 tree = ET.parse('modified_sms.xml')
@@ -108,9 +109,13 @@ def extract_rwf_amount(text):
         amounts.append(float(amount.replace(',', '')))
     return amounts
 
+# Set locale to Rwanda (RWF) for formatting, adjust based on available locales
+try:
+    locale.setlocale(locale.LC_ALL, 'rw_RW,UTF-8')
+except locale.Error:
+    print("Locale rw_RW.UTF-8 is not available. Using manual formatting.")
 # Initialize balances(totals) for each category
 category_balances = {key: 0 for key in categorized_sms.keys()}
-
 # Calculate balances(totals) for each category
 for category, messages in categorized_sms.items():
     for message in messages:
@@ -120,10 +125,20 @@ for category, messages in categorized_sms.items():
             # Sum the amounts for the category
             category_balances[category] += sum(amounts)
 
+# Format the balances for output
+formatted_balances = {}
+for category, balance in category_balances.items():
+    # Format the balance as RWF (manually if locale is unavailable, or using locale.currency if available)
+    if locale.getlocale()[0] == 'rw_RW':
+        formatted_balances[category] = locale.currency(balance, grouping=True)
+    else:
+        # Fallback manual formatting
+        formatted_balances[category] = f"RWF {balance:,.2f}"
+
 # Save the balances(totals) to balances.json
 with open('balances.json', 'w') as balances_file:
-    json.dump(category_balances, balances_file, indent=4)
+    json.dump(formatted_balances, balances_file, indent=4)
 
 # Print the final results for review
-for category, balance in category_balances.items():
-    print(f"{category}: Total RWF {balance:.2f}")
+for category, balance in formatted_balances.items():
+    print(f"{category}: Total {balance}")
