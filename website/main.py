@@ -49,10 +49,9 @@ def get_messages(table_name):
     try:
         with sqlite3.connect('database/mobile_money.db') as conn:
             cursor = conn.cursor()
-            query = f"SELECT * FROM {table_name}"  # Select all columns
+            query = f"SELECT * FROM {table_name}"
             cursor.execute(query)
             
-            # Fetch all rows and convert them into dictionaries
             rows = cursor.fetchall()
             columns = [column[0] for column in cursor.description]
             messages = [dict(zip(columns, row)) for row in rows]
@@ -62,7 +61,7 @@ def get_messages(table_name):
 
     except sqlite3.Error as e:
         print(f"Database error: {e}")
-        return []  # Return empty list on DB error
+        return []
     except Exception as e:
         print(f"Unexpected error: {e}")
         return []

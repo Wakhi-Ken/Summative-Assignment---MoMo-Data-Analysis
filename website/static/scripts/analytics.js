@@ -38,14 +38,11 @@ async function fetchBalances() {
                 console.log('No messages available');
                   return;
               }
-  
-              // Sort the messages by amount in descending order (highest first)
+
               data.tmessages.sort((a, b) => b.amount - a.amount);
   
-              // Extract the top 3 (you can change this number if you want more)
               const topMessages = data.tmessages.slice(0, 3);
   
-              // Generate the HTML for the top messages
               const messageItems = topMessages.map(msg => {
                   const isIncomingMoneyTable = tableName === "Incoming_Money";
                   const transactionPerson = isIncomingMoneyTable ? msg.sender : msg.recipient;
@@ -67,7 +64,6 @@ async function fetchBalances() {
                   `;
               });
   
-              // Update the container with the top messages
               messagesContainer.innerHTML += `<div class='table-container'>${messageItems.join('')}</div>`;
           })
           .catch(error => {
@@ -78,7 +74,6 @@ async function fetchBalances() {
   
   function fetchAllTables() {
       const messagesContainer = document.getElementById('TopMessages');
-      //Clear container to refresh the data
       messagesContainer.innerHTML = "";
   
       fetch('/api/all_messages')
