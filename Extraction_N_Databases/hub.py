@@ -15,7 +15,7 @@ keywords = {
     "Transfers_to_Mobile_Numbers": ["transfer", "sent to"],
     "Bank_Deposits": ["bank deposit", "deposited"],
     "Airtime_Bill_Payments": ["Amafaranga"],
-    "Cash_Power_Bill_Payments": ["cash power", "electricity bill"],
+    "Cash_Power_Bill_Payments": ["MTN Cash Power"],
     "Transactions_Initiated_by_Third Parties": ["transaction", "initiated by"],
     "Withdrawals_from_Agents": ["withdrawal", "agent"],
     "Bank_Transfers": ["bank transfer", "transferred"],
@@ -134,7 +134,7 @@ for category, balance in category_balances.items():
     else:
         # Fallback manual formatting
         formatted_balances[category] = f"RWF {balance:,.2f}"
-
+        
 # Save the balances(totals) to balances.json
 with open('balances.json', 'w') as balances_file:
     json.dump(formatted_balances, balances_file, indent=4)
